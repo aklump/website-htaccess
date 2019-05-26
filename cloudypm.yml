@@ -1,0 +1,5 @@
+name: aklump/htaccess
+clone_from: https://github.com/aklump/website-htaccess
+entry_script: htaccess.sh
+entry_symlink: htaccess
+on_install: init

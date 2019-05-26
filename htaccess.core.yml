@@ -1,0 +1,28 @@
+title: "Htaccess"
+config_path_base: ../../..
+additional_config:
+  - ../../../bin/config/htaccess.yml
+  - ../../../bin/config/htaccess.local.yml
+additional_bootstrap:
+  - plugins.sh
+default_command: help
+commands:
+  build:
+    help: Build the registered .htaccess files from source.
+  init:
+    help: Initialize local configuration files.
+  help:
+    help: 'Show this help screen.'
+  clear-cache:
+    aliases: [clearcache, cc]
+    help: 'Clear all cached data.'
+translate:
+  ids:
+    - 'Completed successfully.'
+    - Failed.
+  strings:
+    en: null
+name: Htaccess
+description: 'A management tool to allow inclusion of .htaccess files in other .htaccess files plus a bit more.'
+version: 0.0.1
+author: 'Aaron Klump <sourcecode@intheloftstudios.com>'

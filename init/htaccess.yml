@@ -1,0 +1,6 @@
+files:
+  webroot:
+    output: web/.htaccess
+    source:
+      - install/apache/.htaccess.core
+      - install/apache/.htaccess.custom
