@@ -4,7 +4,7 @@
 
 ## Summary
 
-A helper script for htaccess files.
+A helper script for _.htaccess_ management.
 
 * Allows you to include _.htaccess_ files in other _.htaccess_ files.
 * Work with smaller files then combine using `./bin/htaccess build`
