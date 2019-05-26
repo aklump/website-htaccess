@@ -20,7 +20,8 @@ A helper script for _.htaccess_ management.
 - Install in your repository root using `cloudy pm-install aklump/htaccess`
 - Open _bin/config/htaccess.yml_ and modify as needed.
 - Refer to _bin/config/htaccess.example.yml_ as a guide and optionally, delete when done.
-- Once configured build your files using `./bin/htaccess build`
+- Once configured, clear the cache `./bin/htaccess clear-cache`
+- Lastly, build your files using `./bin/htaccess build`
 
 ## Requirements
 
