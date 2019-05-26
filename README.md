@@ -6,12 +6,12 @@
 
 A helper script for htaccess files.
 
-* Allows you to include .htaccess files in other .htaccess files.
-* Work with smaller files then combine on build.
-* Share common snippets across different .htaccess files.
-* Merge in remote content on build (think Drupal web root .htaccess + custom .htaccess directives). 
+* Allows you to include _.htaccess_ files in other _.htaccess_ files.
+* Work with smaller files then combine using `./bin/htaccess build`
+* Share common snippets across different _.htaccess_ files.
+* Merge in remote _.htaccess_ source files on build (think Drupal web root _.htaccess_ + custom _.htaccess _directives). 
 * Manage banned IPs in a separate file or add them to the YAML configuration.
-* Includes other shortcut tools to help with code generation.
+* Includes other shortcut tools to help with .htaccess management of your websites.
 
 **Visit <https://aklump.github.io/htaccess> for full documentation.**
 
