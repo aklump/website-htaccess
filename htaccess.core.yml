@@ -24,5 +24,5 @@ translate:
     en: null
 name: Htaccess
 description: 'A management tool to allow inclusion of .htaccess files in other .htaccess files plus a bit more.'
-version: 0.0.3
+version: 0.0.4
 author: 'Aaron Klump <sourcecode@intheloftstudios.com>'
