@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Htaccess</title>
+  <link href="search/tipuesearch.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body class="page--readme">
+<header>
+  <div class="pager"><a href="index.html" class="prev index">&laquo;Index</a><a href="index.html" class="index pager__book-title"></a><a href="index.html" class="next index">Index&raquo;</a></div></header>
+<section class="sub-header">
+  <div class="breadcrumbs"><a href="index.html">Index</a>
+         &raquo
+      </div>  </section>
+
+
+<h1>Htaccess</h1>
+
+<section>
+
+<p><img src="images/htaccess.jpg" alt="htaccess" /></p>
+
+<h2>Summary</h2>
+
+<p>A helper script for htaccess files.</p>
+
+<ul>
+<li>Allows you to include .htaccess files in other .htaccess files.</li>
+<li>Work with smaller files then combine on build.</li>
+<li>Share common snippets across different .htaccess files.</li>
+<li>Merge in remote content on build (think Drupal web root .htaccess + custom .htaccess directives).</li>
+<li>Manage banned IPs in a separate file or add them to the YAML configuration.</li>
+<li>Includes other shortcut tools to help with code generation.</li>
+</ul>
+
+<p><strong>Visit <a href="https://aklump.github.io/htaccess">https://aklump.github.io/htaccess</a> for full documentation.</strong></p>
+
+<h2>Quick Start</h2>
+
+<ul>
+<li>Install in your repository root using <code>cloudy pm-install aklump/htaccess</code></li>
+<li>Open <em>bin/config/htaccess.yml</em> and modify as needed.</li>
+<li>Refer to <em>bin/config/htaccess.example.yml</em> as a guide and optionally, delete when done.</li>
+<li>Once configured build your files using <code>./bin/htaccess build</code></li>
+</ul>
+
+<h2>Requirements</h2>
+
+<p>You must have <a href="https://github.com/aklump/cloudy">Cloudy</a> installed on your system to install this package.</p>
+
+<h2>Installation</h2>
+
+<p>The installation script above will generate the following structure where <code>.</code> is your repository root.</p>
+
+<pre><code>.
+├── bin
+│   ├── htaccess -&gt; ../opt/htaccess/htaccess.sh
+│   └── config
+│       └── htaccess.yml
+├── opt
+│   ├── cloudy
+│   └── aklump
+│       └── htaccess
+└── {public web root}
+</code></pre>
+
+<p>Optionally you may want to designate a source folder for your <em>.htaccess</em> partial files to be pulled from on build.  For example:</p>
+
+<pre><code>.
+├── bin
+│   └── config
+│       └── htaccess.yml (configuration)
+├── install
+│   └── apache
+│       ├── .htaccess.core (1 of 2 source files)
+│       └── .htaccess.custom (2 of 2 source files)
+└── web
+    └── .htaccess (the compiled file)
+</code></pre>
+
+<h3>To Update</h3>
+
+<ul>
+<li>Update to the latest version from your repo root: <code>cloudy pm-update aklump/htaccess</code></li>
+</ul>
+
+<h2>Configuration Files</h2>
+
+<table>
+<thead>
+<tr>
+  <th>Filename</th>
+  <th>Description</th>
+  <th>VCS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><em>htaccess.yml</em></td>
+  <td>Configuration file</td>
+  <td>yes</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Custom Configuration</h3>
+
+<ul>
+<li>Open <em>bin/config/htaccess.example.yml</em> and read it's inline documentation.</li>
+<li>That file is also located in <em>opt/aklump/htaccess/init/htaccess.example.yml</em>.</li>
+</ul>
+
+<h2>Usage</h2>
+
+<ul>
+<li>To see all commands use <code>./bin/htaccess</code></li>
+</ul>
+
+<h2>Contributing</h2>
+
+<p>If you find this project useful... please consider <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4E5KZHDQCEUV8&amp;item_name=Gratitude%20for%20aklump%2Fwebsite-htaccess">making a donation</a>.</p>
+
+<h2>More Reading</h2>
+
+<ul>
+<li><a href="https://www.askapache.com/htaccess">THE Ultimate Htaccess</a></li>
+</ul>
+</section>
+
+<div class="search__results">
+  <div id="tipue_search_content"></div>
+</div>
+
+<footer>
+  <div class="pager"><a href="index.html" class="prev index">&laquo;Index</a><a href="index.html" class="index pager__book-title"></a><a href="index.html" class="next index">Index&raquo;</a></div>  
+  <div id="footer-legaleeze">
+    <p class="legaleeze center">Version: 0.0.1 &bull; Last Updated: Sat, 25 May 2019 20:41:19 -0700</p>
+  </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="js/core.js"></script>
+</body>
+</html>
+
