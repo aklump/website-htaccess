@@ -18,7 +18,6 @@ function plugin_ban_wordpress() {
   [[ "$output_path" ]] || return 1
 
   eval $(get_config_as ban "$config_key")
-  debug "$ban;\$ban"
   if [[ "$ban" == true ]]; then
     echo "<IfModule mod_rewrite.c>" >> "$output_path"
     echo "  RewriteEngine on" >> "$output_path"
