@@ -21,7 +21,7 @@ function plugin_ban_wordpress() {
   if [[ "$ban" == true ]]; then
     echo "<IfModule mod_rewrite.c>" >> "$output_path"
     echo "  RewriteEngine on" >> "$output_path"
-    echo "  RewriteRule ^wp-login.php$ - [R=404]" >> "$output_path"
+    echo "  RewriteRule ^wp-login.php$ - [R=410,L]" >> "$output_path"
     echo "</IfModule>" >> "$output_path"
   fi
 }
