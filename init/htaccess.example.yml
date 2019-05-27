@@ -20,6 +20,10 @@ files:
     # The path where the output file will be generated.
     output: web/.htaccess.prod
 
+    # Set true or false.  True will strip comment lines except header.  False
+    # will leave them alone.
+    remove_comments: true
+
     # A list of source files to merge together.  They are merged in the order as
     # listed.
     source:

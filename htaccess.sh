@@ -66,9 +66,6 @@ case $command in
 
           # Truncate the output file.
           echo -n "" > "$output_path" || fail_because "Cannot create output file at $output_path"
-          write_file_header_array=("$title" "" "$(string_upper "$output_header")" "(built on: $(date8601))" "@see $(realpath $SCRIPT)" )
-          write_file_header "$output_path"
-          echo "" >> "$output_path"
 
           # The order these are defined will determine their execution order.
           registered_plugin_names=("ban_ips" "http_auth" "ban_wordpress" "source")
@@ -85,6 +82,21 @@ case $command in
               echo "# End output from \"$plugin_name\"" >> "$output_path"
             fi
           done
+
+          # Remove comments if asked
+          eval $(get_config_as "remove_comments" "files.$id.remove_comments")
+          if [[ "$remove_comments" == true ]]; then
+            sed -i "" -e '/^[ \t]*#/d' "$output_path" || fail_because "Couldn't remove comments"
+            list_add_item "All comments removed."
+          fi
+
+          # Add the file header, which should not be stripped
+          mv "$output_path" "$output_path.tmp"
+          write_file_header_array=("$title" "" "$(string_upper "$output_header")" "(built on: $(date8601))" "@see $(realpath $SCRIPT)" )
+          write_file_header "$output_path"
+          cat "$output_path.tmp" >> "$output_path"
+          echo "" >> "$output_path"
+          rm "$output_path.tmp"
 
           echo_green_list
           succeed_because "Created $output_path"

@@ -1,6 +1,7 @@
 files:
   webroot:
     output: web/.htaccess
+    remove_comments: true
     source:
       - install/apache/.htaccess.core
       - install/apache/.htaccess.custom
