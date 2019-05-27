@@ -86,13 +86,14 @@ function plugin_source() {
       write_file_header_array=("Downloaded from $partial")
       write_file_header "$output_path"
       list_add_item "Downloading $partial"
-#      curl -q "$partial" >> "$output_path"
       wget -q "$partial" -O - >> "$output_path"
     elif [ -f "$partial" ]; then
       write_file_header_array=("Copied from $partial")
       write_file_header "$output_path"
       list_add_item "Importing $partial"
       cat "$partial" >> "$output_path"
+    else
+      exit_with_failure "$partial cannot be located as configured.  Is this a file? Does it exist? Is the URL correct?"
     fi
     echo "" >> "$output_path"
   done
