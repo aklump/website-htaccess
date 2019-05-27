@@ -64,16 +64,23 @@ function plugin_http_auth() {
   echo "AuthGroupFile /dev/null" >> "$output_path"
   echo "AuthType Basic" >> "$output_path"
   echo "Require valid-user" >> "$output_path"
-  echo "Order deny,allow" >> "$output_path"
 
+  # If we whitelist some IPs then add this.
   eval $(get_config_as array_join__array -a "$config_key.whitelist")
   if [ ${#array_join__array[@]} -gt 0 ]; then
+    echo "Order deny,allow" >> "$output_path"
+    echo "Deny from all" >> "$output_path"
     echo "Allow from $(array_join ",")" >> "$output_path"
+    echo "Satisfy any" >> "$output_path"
   fi
-
-  echo "Satisfy Any" >> "$output_path"
 }
 
+# Merge in partials from files or URLs.
+#
+# $1 - The path to the output_path file.
+# $2 - The key to use to access configuration.
+#
+# Returns 0 if successful, 1 otherwise.
 function plugin_source() {
   local output_path="$1"
   local config_key="$2"
