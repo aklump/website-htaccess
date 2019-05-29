@@ -41,6 +41,39 @@ function write_file_header() {
   echo "#" >> "$output_path"
 }
 
+# Echo auto-detected force_ssl setting based on $valid_hosts__array.
+#
+# Will echo either 'true' or 'false'.
+#
+# Returns nothing.
+valid_hosts__array=()
+function detect_force_ssl() {
+  local has_http
+  local has_https
+  for host in "${valid_hosts__array[@]}"; do
+     [[ "$host" == http:* ]] && has_http=true
+     [[ "$host" == https:* ]] && has_https=true
+  done
+  [[ $has_http == true ]] && [[ $has_https == true ]] && echo false
+  echo true
+}
+
+# Echo auto-detected www_prefix setting based on $valid_hosts__array.
+#
+# Will echo either 'add', 'remove', or null.
+#
+# Returns nothing.
+valid_hosts__array=()
+function detect_www_prefix() {
+  local has_www=0
+  for host in "${valid_hosts__array[@]}"; do
+     [[ "$host" == *www.* ]] && (( ++has_www ))
+  done
+  [ $has_www -eq ${#valid_hosts__array[@]} ] && echo 'add'
+  [ $has_www -eq 0 ] && echo 'remove'
+  echo null
+}
+
 # Begin Cloudy Bootstrap
 s="${BASH_SOURCE[0]}";while [ -h "$s" ];do dir="$(cd -P "$(dirname "$s")" && pwd)";s="$(readlink "$s")";[[ $s != /* ]] && s="$dir/$s";done;r="$(cd -P "$(dirname "$s")" && pwd)";source "$r/../../cloudy/cloudy/cloudy.sh";[[ "$ROOT" != "$r" ]] && echo "$(tput setaf 7)$(tput setab 1)Bootstrap failure, cannot load cloudy.sh$(tput sgr0)" && exit 1
 # End Cloudy Bootstrap
@@ -67,10 +100,31 @@ case $command in
           # Truncate the output file.
           echo -n "" > "$output_path" || fail_because "Cannot create output file at $output_path"
 
+          eval $(get_config_keys_as array_has_value__array "files.$id")
+
+          # Determine the settings based on the url: force_ssl and www_prefix
+          eval $(get_config_as -a valid_hosts__array "files.$id.valid_hosts")
+          for (( host_id = 0; host_id < ${#valid_hosts__array[@]}; ++host_id )); do
+              host=${valid_hosts__array[host_id]}
+              [[ "$host" ]] || fail_because "files.$id.valid_hosts.$host_id is missing."
+              has_failed || [[ "$host" == http* ]] || fail_because "files.$id.valid_hosts.$host_id must begin with \"http\" or \"https\"."
+          done
+
+          eval $(get_config_as force_ssl "files.$id.force_ssl" $(detect_force_ssl))
+          if [[ $force_ssl == true ]]; then
+            array_has_value__array=("${array_has_value__array[@]}" "force_ssl")
+          fi
+
+          eval $(get_config_as www_prefix "files.$id.www_prefix" $(detect_www_prefix))
+          if [[ $www_prefix == "add" ]] || [[ $www_prefix == "remove" ]]; then
+            array_has_value__array=("${array_has_value__array[@]}" "www_prefix")
+          fi
+
+          has_failed && exit_with_failure
+
           # The order these are defined will determine their execution order.
           registered_plugin_names=("ban_ips" "http_auth" "force_ssl" "www_prefix" "ban_wordpress" "source")
 
-          eval $(get_config_keys_as array_has_value__array "files.$id")
           for plugin_name in "${registered_plugin_names[@]}"; do
             if array_has_value "$plugin_name"; then
               list_add_item "Using plugin: $plugin_name"

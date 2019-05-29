@@ -17,6 +17,14 @@ files:
     # A title to describe this section to adminstrators.
     title: Production .htaccess for Drupal 7 webroot
 
+    # Required.  At least one valid hostname including http or https protocol.
+    # List the hosts the $output file will be operating under. This/these
+    # values are used to auto-detect force_ssl and www_prefix settings, unless
+    # overridden as shown below.
+    valid_hosts:
+      - https://www.my-project.edu
+      - https://www.d8.my-project.edu
+
     # The path where the output file will be generated.
     output: web/.htaccess.prod
 
@@ -36,17 +44,20 @@ files:
     # will leave them alone.
     remove_comments: true
 
-    # Set this to 'true' to make sure the site is served over HTTPS.
-    force_ssl: true
-
-    # Set this to either 'add' or 'remove' to handle the "www" prefix on the
-    # domain.  'add' will ensure that "www." appears in the domain; "remove"
-    # will take it away.
-    www_prefix: remove
-
     # Since our website is Drupal 7, we want to fast 404 common wordpress paths
     # so that Drupal doesn't have to bootstrap nor handle them.
     ban_wordpress: true
+
+    # OPTIONAL OVERRIDE to the auto-detected setting based on valid_hosts.  See
+    # README.md for more info.  Set this to 'true' to make sure the site is
+    # served over HTTPS.
+    force_ssl: true
+
+    # OPTIONAL OVERRIDE to the auto-detected setting based on valid_hosts.  See
+    # README.md for more info.  Set this to either 'add' or 'remove' to handle
+    # the "www" prefix on the domain.  'add' will ensure that "www." appears in
+    # the domain; "remove" will take it away.
+    www_prefix: remove
 
   # This section configures generation of our Drupal 7 webroot .htaccess file
   # for the staging website.

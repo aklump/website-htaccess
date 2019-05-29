@@ -50,6 +50,7 @@ function plugin_ban_ips() {
 # $2 - The base configuration key, e.g. "files.prod_webroot"
 #
 # Returns 0 if successful, 1 otherwise.
+valid_hosts__array=()
 function plugin_http_auth() {
   local output_path="$1"
   local config_base="$2"
@@ -77,7 +78,9 @@ function plugin_http_auth() {
   # Forbid linking to assets in the site.
   echo "RewriteEngine on" >> "$output_path"
   echo "RewriteCond %{HTTP_REFERER} !^$" >> "$output_path"
-  echo "RewriteCond %{HTTP_REFERER} !^https?://(?:www.)?%{SERVER_NAME}(?:$|/) [NC]" >> "$output_path"
+  for host in "${valid_hosts__array[@]}"; do
+    echo "RewriteCond %{HTTP_REFERER} !^$host(?:$|/) [NC]" >> "$output_path"
+  done
   echo "RewriteRule .(gif|jpg|jpeg|png|mp3|mpg|avi|mov)$ - [F,NC]" >> "$output_path"
 }
 
@@ -117,15 +120,12 @@ function plugin_source() {
 # $2 - The base configuration key, e.g. "files.prod_webroot"
 #
 # Returns 0 if successful, 1 otherwise.
+force_ssl=false
 function plugin_force_ssl() {
   local output_path="$1"
   local config_base="$2"
 
   [[ "$output_path" ]] || return 1
-
-  eval $(get_config_as force_ssl "$config_base.force_ssl")
-  eval $(get_config_as www_prefix "$config_base.www_prefix")
-
   if [[ "$force_ssl" != true ]]; then
     return 0
   fi
@@ -146,14 +146,13 @@ function plugin_force_ssl() {
 # $2 - The base configuration key, e.g. "files.prod_webroot"
 #
 # Returns 0 if successful, 1 otherwise.
+www_prefix=null
+force_ssl=false
 function plugin_www_prefix() {
   local output_path="$1"
   local config_base="$2"
 
   [[ "$output_path" ]] || return 1
-
-  eval $(get_config_as force_ssl "$config_base.force_ssl")
-  eval $(get_config_as www_prefix "$config_base.www_prefix")
 
   echo "<IfModule mod_rewrite.c>" >> "$output_path"
   echo "  RewriteEngine on" >> "$output_path"

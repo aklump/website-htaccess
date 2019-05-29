@@ -1,5 +1,7 @@
 files:
   webroot:
+    valid_hosts:
+      - https://www.my-host.com
     output: web/.htaccess
     remove_comments: true
     source:
