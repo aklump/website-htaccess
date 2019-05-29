@@ -19,6 +19,7 @@ function plugin_ban_wordpress() {
 
   eval $(get_config_as ban "$config_base.ban_wordpress")
   if [[ "$ban" == true ]]; then
+    list_add_item "Using plugin: ban_wordpress"
     echo "<IfModule mod_rewrite.c>" >> "$output_path"
     echo "  RewriteEngine on" >> "$output_path"
     echo "  RewriteRule ^wp-login.php$ - [R=410,L]" >> "$output_path"
@@ -39,6 +40,7 @@ function plugin_ban_ips() {
   [[ "$output_path" ]] || return 1
 
   eval $(get_config_as -a ips "$config_base.ban_ips")
+  [ ${#ips[@]} -gt 0 ] && list_add_item "Using plugin: ban_ips"
   for ip in "${ips[@]}"; do
      echo "deny from $ip" >> "$output_path"
   done
@@ -57,6 +59,7 @@ function plugin_http_auth() {
 
   [[ "$output_path" ]] || return 1
 
+  list_add_item "Using plugin: http_auth"
   eval $(get_config_as title "$config_base.http_auth.title" "Restricted Area")
   eval $(get_config_as user_file "$config_base.http_auth.user_file")
 
@@ -95,6 +98,7 @@ function plugin_source() {
   local config_base="$2"
 
   [[ "$output_path" ]] || return 1
+  list_add_item "Using plugin: source"
   eval $(get_config_as source -a "$config_base.source")
   for partial in "${source[@]}"; do
     if [[ "$partial" = http* ]]; then
@@ -129,6 +133,7 @@ function plugin_force_ssl() {
   if [[ "$force_ssl" != true ]]; then
     return 0
   fi
+  list_add_item "Using plugin: force_ssl"
 
   echo "<IfModule mod_rewrite.c>" >> "$output_path"
   echo "  RewriteEngine on" >> "$output_path"
@@ -153,6 +158,7 @@ function plugin_www_prefix() {
   local config_base="$2"
 
   [[ "$output_path" ]] || return 1
+  list_add_item "Using plugin: www_prefix"
 
   echo "<IfModule mod_rewrite.c>" >> "$output_path"
   echo "  RewriteEngine on" >> "$output_path"

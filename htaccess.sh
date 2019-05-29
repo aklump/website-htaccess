@@ -104,10 +104,11 @@ case $command in
 
           # Determine the settings based on the url: force_ssl and www_prefix
           eval $(get_config_as -a valid_hosts__array "files.$id.valid_hosts")
-          for (( host_id = 0; host_id < ${#valid_hosts__array[@]}; ++host_id )); do
+          [ ${#valid_hosts__array[@]} -eq 0 ] && fail_because "files.$id.valid_hosts is missing."
+
+          ! has_failed && for (( host_id = 0; host_id < ${#valid_hosts__array[@]}; ++host_id )); do
               host=${valid_hosts__array[host_id]}
-              [[ "$host" ]] || fail_because "files.$id.valid_hosts.$host_id is missing."
-              has_failed || [[ "$host" == http* ]] || fail_because "files.$id.valid_hosts.$host_id must begin with \"http\" or \"https\"."
+              [[ "$host" == http* ]] || fail_because "files.$id.valid_hosts.$host_id must begin with \"http\" or \"https\"."
           done
 
           eval $(get_config_as force_ssl "files.$id.force_ssl" $(detect_force_ssl))
@@ -127,7 +128,6 @@ case $command in
 
           for plugin_name in "${registered_plugin_names[@]}"; do
             if array_has_value "$plugin_name"; then
-              list_add_item "Using plugin: $plugin_name"
               callback="plugin_${plugin_name}"
               write_file_header_array=("Begin plugin \"$plugin_name\" output.")
               write_file_header "$output_path"
