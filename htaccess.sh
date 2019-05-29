@@ -68,7 +68,7 @@ case $command in
           echo -n "" > "$output_path" || fail_because "Cannot create output file at $output_path"
 
           # The order these are defined will determine their execution order.
-          registered_plugin_names=("ban_ips" "http_auth" "ban_wordpress" "source")
+          registered_plugin_names=("ban_ips" "http_auth" "force_ssl" "www_prefix" "ban_wordpress" "source")
 
           eval $(get_config_keys_as array_has_value__array "files.$id")
           for plugin_name in "${registered_plugin_names[@]}"; do
@@ -77,7 +77,7 @@ case $command in
               callback="plugin_${plugin_name}"
               write_file_header_array=("Begin plugin \"$plugin_name\" output.")
               write_file_header "$output_path"
-              eval $callback "$output_path" "files.$id.$plugin_name" || fail_because "$plugin_name failed."
+              eval $callback "$output_path" "files.$id" || fail_because "$plugin_name failed."
               echo "#" >> "$output_path"
               echo "# End output from \"$plugin_name\"" >> "$output_path"
             fi

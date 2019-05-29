@@ -20,10 +20,6 @@ files:
     # The path where the output file will be generated.
     output: web/.htaccess.prod
 
-    # Set true or false.  True will strip comment lines except header.  False
-    # will leave them alone.
-    remove_comments: true
-
     # A list of source files to merge together.  They are merged in the order as
     # listed.
     source:
@@ -35,6 +31,18 @@ files:
 
       # This will pull in the master branch 7.x .htaccess file.
       - https://raw.githubusercontent.com/drupal/drupal/7.x/.htaccess
+
+    # Set true or false.  True will strip comment lines except header.  False
+    # will leave them alone.
+    remove_comments: true
+
+    # Set this to 'true' to make sure the site is served over HTTPS.
+    force_ssl: true
+
+    # Set this to either 'add' or 'remove' to handle the "www" prefix on the
+    # domain.  'add' will ensure that "www." appears in the domain; "remove"
+    # will take it away.
+    www_prefix: remove
 
     # Since our website is Drupal 7, we want to fast 404 common wordpress paths
     # so that Drupal doesn't have to bootstrap nor handle them.
