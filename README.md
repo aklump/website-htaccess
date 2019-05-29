@@ -70,6 +70,14 @@ Optionally you may want to designate a source folder for your _.htaccess_ partia
 * Open _bin/config/htaccess.example.yml_ and read it's inline documentation.
 * That file is also located in _opt/aklump/htaccess/init/htaccess.example.yml_.
 
+### Regarding `valid_hosts`, `force_ssl`, and `www_prefix` configuration
+
+The first setting is required.  You must list one or more hosts in `valid_hosts`, including their http or https protocol.
+
+You may explicitly declare `force_ssl` or `www_prefix`, or you may let the `valid_hosts` be used to autodetect these settings.
+
+The auto-detection will set `force_ssl` to `true` if all `valid_hosts` use the _https_ protocol.  `www_prefix` will be set to `add` if all `valid_hosts` have `www.` in their values, `remove` if all `valid_hosts` do not have `www.` in their values, and `null` if there is mixture.
+
 ## Usage
 
 * To see all commands use `./bin/htaccess`

@@ -113,6 +113,14 @@
 <li>That file is also located in <em>opt/aklump/htaccess/init/htaccess.example.yml</em>.</li>
 </ul>
 
+<h3>Regarding <code>valid_hosts</code>, <code>force_ssl</code>, and <code>www_prefix</code> configuration</h3>
+
+<p>The first setting is required.  You must list one or more hosts in <code>valid_hosts</code>, including their http or https protocol.</p>
+
+<p>You may explicitly declare <code>force_ssl</code> or <code>www_prefix</code>, or you may let the <code>valid_hosts</code> be used to autodetect these settings.</p>
+
+<p>The auto-detection will set <code>force_ssl</code> to <code>true</code> if all <code>valid_hosts</code> use the <em>https</em> protocol.  <code>www_prefix</code> will be set to <code>add</code> if all <code>valid_hosts</code> have <code>www.</code> in their values, <code>remove</code> if all <code>valid_hosts</code> do not have <code>www.</code> in their values, and <code>null</code> if there is mixture.</p>
+
 <h2>Usage</h2>
 
 <ul>
@@ -138,7 +146,7 @@
 <footer>
   <div class="pager"><a href="index.html" class="prev index">&laquo;Index</a><a href="index.html" class="index pager__book-title"></a><a href="index.html" class="next index">Index&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 0.0.8 &bull; Last Updated: Tue, 28 May 2019 17:14:26 -0700</p>
+    <p class="legaleeze center">Version: 0.0.9 &bull; Last Updated: Tue, 28 May 2019 21:20:02 -0700</p>
   </div>
 </footer>
 
