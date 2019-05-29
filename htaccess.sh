@@ -55,7 +55,8 @@ function detect_force_ssl() {
      [[ "$host" == https:* ]] && has_https=true
   done
   [[ $has_http == true ]] && [[ $has_https == true ]] && echo false
-  echo true
+  [[ $has_https ]] && echo true
+  echo false
 }
 
 # Echo auto-detected www_prefix setting based on $valid_hosts__array.
