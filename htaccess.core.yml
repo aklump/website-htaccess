@@ -1,8 +1,8 @@
 title: Htaccess
 config_path_base: ../../..
 additional_config:
-  - ../../../bin/config/htaccess.yml
-  - ../../../bin/config/htaccess.local.yml
+  - bin/config/htaccess.yml
+  - bin/config/htaccess.local.yml
 additional_bootstrap:
   - plugins.sh
 default_command: help
