@@ -90,3 +90,4 @@ If you find this project useful... please consider [making a donation](https://w
 
 * [THE Ultimate Htaccess](https://www.askapache.com/htaccess)
 * [Mod_Rewrite Variables Cheatsheet](https://www.askapache.com/htaccess/mod_rewrite-variables-cheatsheet/)
+* [Htaccess](https://www.askapache.com/category/htaccess/)
