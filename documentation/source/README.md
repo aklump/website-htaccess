@@ -9,6 +9,7 @@ A helper script for _.htaccess_ management.
 * Allows you to include _.htaccess_ files in other _.htaccess_ files.
 * Work with smaller files then combine using `./bin/htaccess build`
 * Share common snippets across different _.htaccess_ files.
+* Simplified URL redirection; remap old URLs to new without nasty syntax.
 * Merge in remote _.htaccess_ source files on build (think Drupal web root _.htaccess_ + custom _.htaccess _directives). 
 * Manage banned IPs in a separate file or add them to the YAML configuration.
 * Includes other shortcut tools to help with .htaccess management of your websites.
