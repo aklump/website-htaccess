@@ -89,6 +89,14 @@ files:
       - apache/webroot/.htaccess.custom
       - https://raw.githubusercontent.com/drupal/drupal/7.x/.htaccess
 
+    # You can set this to false to block inheritance of the shared redirects.
+    redirects:
+      # By setting this to false, the top-level redirects will be ignored.  This
+      # is true by default i.e., when omitted.
+      inherit: false
+      301:
+        - /only/one/redirect /goes/here
+
     # This key allows us to list out IPs to ban.  The values here will be used
     # to generate "deny from" code so feel free to use full IPs or partial ones.
     ban_ips:

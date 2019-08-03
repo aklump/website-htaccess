@@ -187,6 +187,11 @@ function plugin_redirects() {
   local config_base="$2"
 
   [[ "$output_path" ]] || return 1
+
+  # This file may elect to ignore shared redirects
+  eval $(get_config_as redirects "$config_base.redirects.inherit" true)
+  [[ "$redirects" == false ]] && return 0
+
   list_add_item "Using plugin: redirects"
 
   # Handle shared redirects
