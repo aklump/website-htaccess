@@ -204,7 +204,9 @@ function plugin_redirects() {
       if [[ "${from:0:1}" != '/' ]]; then
         fail_because "All redirect from-paths must begin with forward slash; \"$from\" does not." && return 1
       fi
-
+      if [[ "${from: -1}" == '/' ]]; then
+        fail_because "Redirect from-paths must not end with a forward slash; remove the slash from \"$from\"." && return 1
+      fi
       if [[ $code -gt 299 ]] && [[ $code -lt 400 ]] && [[ ! "${string_split__array[1]}" ]]; then
         fail_because "The redirect parameter cannot be empty for: $from" && return 1
       fi
@@ -222,6 +224,9 @@ function plugin_redirects() {
       from=${string_split__array[0]}
       if [[ "${from:0:1}" != '/' ]]; then
         fail_because "All redirect from-paths must begin with forward slash; \"$from\" does not." && return 1
+      fi
+      if [[ "${from: -1}" == '/' ]]; then
+        fail_because "Redirect from-paths must not end with a forward slash; remove the slash from \"$from\"." && return 1
       fi
       from="^${string_split__array[0]%/}/?\$"
       if [[ $code -gt 299 ]] && [[ $code -lt 400 ]] && [[ ! "${string_split__array[1]}" ]]; then
