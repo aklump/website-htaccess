@@ -98,67 +98,70 @@ case $command in
     list_clear
     eval $(get_config_as title "files.$id.title" ".htaccess file")
     echo_heading "$title"
-    eval $(get_config_path_as output_path "files.$id.output")
 
-    # Truncate the output file.
-    echo -n "" >"$output_path" || fail_because "Cannot create output file at $output_path"
+    eval $(get_config_path_as output_paths -a "files.$id.output")
+    for output_path in "${output_paths[@]}"; do
 
-    eval $(get_config_keys_as array_has_value__array "files.$id")
+      # Truncate the output file.
+      echo -n "" >"$output_path" || fail_because "Cannot create output file at $output_path"
 
-    # Determine the settings based on the url: force_ssl and www_prefix
-    eval $(get_config_as -a valid_hosts__array "files.$id.valid_hosts")
-    [ ${#valid_hosts__array[@]} -eq 0 ] && fail_because "files.$id.valid_hosts is missing."
+      eval $(get_config_keys_as array_has_value__array "files.$id")
 
-    ! has_failed && for ((host_id = 0; host_id < ${#valid_hosts__array[@]}; ++host_id)); do
-      host=${valid_hosts__array[host_id]}
-      [[ "$host" == http* ]] || fail_because "files.$id.valid_hosts.$host_id must begin with \"http\" or \"https\"."
-    done
+      # Determine the settings based on the url: force_ssl and www_prefix
+      eval $(get_config_as -a valid_hosts__array "files.$id.valid_hosts")
+      [ ${#valid_hosts__array[@]} -eq 0 ] && fail_because "files.$id.valid_hosts is missing."
 
-    eval $(get_config_as force_ssl "files.$id.force_ssl" $(detect_force_ssl))
-    if [[ $force_ssl == true ]]; then
-      array_has_value__array=("${array_has_value__array[@]}" "force_ssl")
-    fi
+      ! has_failed && for ((host_id = 0; host_id < ${#valid_hosts__array[@]}; ++host_id)); do
+        host=${valid_hosts__array[host_id]}
+        [[ "$host" == http* ]] || fail_because "files.$id.valid_hosts.$host_id must begin with \"http\" or \"https\"."
+      done
 
-    eval $(get_config_as www_prefix "files.$id.www_prefix" $(detect_www_prefix))
-    if [[ $www_prefix == "add" ]] || [[ $www_prefix == "remove" ]]; then
-      array_has_value__array=("${array_has_value__array[@]}" "www_prefix")
-    fi
-
-    has_failed && exit_with_failure
-
-    # The order these are defined will determine their execution order.
-    registered_plugin_names=("redirects" "ban_ips" "http_auth" "force_ssl" "www_prefix" "ban_wordpress" "source")
-
-    for plugin_name in "${registered_plugin_names[@]}"; do
-
-      # Note: the redirects plugin can take config from top-level or from file-level, it's different from the rest.
-      if array_has_value "$plugin_name" || [[ "$plugin_name" == "redirects" && "${#shared_redirects[@]}" -gt 0 ]]; then
-        callback="plugin_${plugin_name}"
-        write_file_header_array=("Begin plugin \"$plugin_name\" output.")
-        write_file_header "$output_path"
-        eval $callback "$output_path" "files.$id" || exit_with_failure "Plugin \"$plugin_name\" has failed."
-        echo "#" >>"$output_path"
-        echo "# End output from \"$plugin_name\"" >>"$output_path"
+      eval $(get_config_as force_ssl "files.$id.force_ssl" $(detect_force_ssl))
+      if [[ $force_ssl == true ]]; then
+        array_has_value__array=("${array_has_value__array[@]}" "force_ssl")
       fi
+
+      eval $(get_config_as www_prefix "files.$id.www_prefix" $(detect_www_prefix))
+      if [[ $www_prefix == "add" ]] || [[ $www_prefix == "remove" ]]; then
+        array_has_value__array=("${array_has_value__array[@]}" "www_prefix")
+      fi
+
+      has_failed && exit_with_failure
+
+      # The order these are defined will determine their execution order.
+      registered_plugin_names=("redirects" "ban_ips" "http_auth" "force_ssl" "www_prefix" "ban_wordpress" "source")
+
+      for plugin_name in "${registered_plugin_names[@]}"; do
+
+        # Note: the redirects plugin can take config from top-level or from file-level, it's different from the rest.
+        if array_has_value "$plugin_name" || [[ "$plugin_name" == "redirects" && "${#shared_redirects[@]}" -gt 0 ]]; then
+          callback="plugin_${plugin_name}"
+          write_file_header_array=("Begin plugin \"$plugin_name\" output.")
+          write_file_header "$output_path"
+          eval $callback "$output_path" "files.$id" || exit_with_failure "Plugin \"$plugin_name\" has failed."
+          echo "#" >>"$output_path"
+          echo "# End output from \"$plugin_name\"" >>"$output_path"
+        fi
+      done
+
+      # Remove comments if asked to.
+      eval $(get_config_as "remove_comments" "files.$id.remove_comments")
+      if [[ "$remove_comments" == true ]]; then
+        sed -i "" -e '/^[ \t]*#/d' "$output_path" || fail_because "Couldn't remove comments"
+        list_add_item "All comments removed."
+      fi
+
+      # Add the file header, which should not be stripped
+      mv "$output_path" "$output_path.tmp"
+      write_file_header_array=("$title" "" "$(string_upper "$output_header")" "(built on: $(date8601))" "@see $(realpath $SCRIPT)")
+      write_file_header "$output_path"
+      cat "$output_path.tmp" >>"$output_path"
+      echo "" >>"$output_path"
+      rm "$output_path.tmp"
+
+      echo_green_list
+      succeed_because "Created $output_path"
     done
-
-    # Remove comments if asked to.
-    eval $(get_config_as "remove_comments" "files.$id.remove_comments")
-    if [[ "$remove_comments" == true ]]; then
-      sed -i "" -e '/^[ \t]*#/d' "$output_path" || fail_because "Couldn't remove comments"
-      list_add_item "All comments removed."
-    fi
-
-    # Add the file header, which should not be stripped
-    mv "$output_path" "$output_path.tmp"
-    write_file_header_array=("$title" "" "$(string_upper "$output_header")" "(built on: $(date8601))" "@see $(realpath $SCRIPT)")
-    write_file_header "$output_path"
-    cat "$output_path.tmp" >>"$output_path"
-    echo "" >>"$output_path"
-    rm "$output_path.tmp"
-
-    echo_green_list
-    succeed_because "Created $output_path"
   done
   has_failed && exit_with_failure
   exit_with_success

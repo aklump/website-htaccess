@@ -45,8 +45,13 @@ files:
       - https://www.my-project.edu
       - https://www.d8.my-project.edu
 
-    # The path where the output file will be generated.
-    output: web/.htaccess.prod
+    # One or more paths where the output file will be saved.  Any parent
+    # directories must already exist or the write will fail.  This may be a
+    # string or an array, as shown.  It's possible the the header timestamp may
+    # differ for each of these files.
+    output:
+      - web/.htaccess.prod
+      - install/default/.htaccess.prod
 
     # A list of source files to merge together.  They are merged in the order as
     # listed.
