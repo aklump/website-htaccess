@@ -150,7 +150,3 @@ files:
       whitelist:
         - 127.127.127.127
         - 127.127.127.128
-
-    # Include this key without "deny" and the default hotlink extensions will be
-    # enabled.
-    hotlinks:

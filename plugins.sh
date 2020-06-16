@@ -79,7 +79,6 @@ function plugin_http_auth() {
   fi
 }
 
-
 # Add hotlink denial code.
 #
 # $1 - The path to the output_path file.
@@ -93,14 +92,12 @@ function plugin_hotlinks() {
 
   [[ "$output_path" ]] || return 1
 
+  list_add_item "Using plugin: hotlinks"
+
   # Forbid linking to assets in the site, a.k.a. "hotlinking".
   eval $(get_config_as deny_extensions -a "$config_base.hotlinks.deny")
   deny_extensions=${deny_extensions[@]}
-  if [[ "$deny_extensions" != false ]]; then
-    # Setup the default if the value is not set and not false.
-    if [[ "$deny_extensions" == "" ]]; then
-      deny_extensions="gif jpg jpeg png mp3 mpg avi mov"
-    fi
+  if [[ "$deny_extensions" ]] && [[ "$deny_extensions" != null ]]; then
     echo "RewriteEngine on" >>"$output_path"
     echo "RewriteCond %{HTTP_REFERER} !^$" >>"$output_path"
     for host in "${valid_hosts__array[@]}"; do
