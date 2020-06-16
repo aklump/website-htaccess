@@ -79,12 +79,25 @@ function plugin_http_auth() {
   fi
 
   # Forbid linking to assets in the site.
-  echo "RewriteEngine on" >>"$output_path"
-  echo "RewriteCond %{HTTP_REFERER} !^$" >>"$output_path"
-  for host in "${valid_hosts__array[@]}"; do
-    echo "RewriteCond %{HTTP_REFERER} !^$host(?:$|/) [NC]" >>"$output_path"
-  done
-  echo "RewriteRule .(gif|jpg|jpeg|png|mp3|mpg|avi|mov)$ - [F,NC]" >>"$output_path"
+  eval $(get_config_as hotlink_extensions -a "$config_base.http_auth.hotlink_protect")
+  hotlink_extensions=${hotlink_extensions[@]}
+  if [[ "$hotlink_extensions" ]]; then
+    echo "RewriteEngine on" >>"$output_path"
+    echo "RewriteCond %{HTTP_REFERER} !^$" >>"$output_path"
+    for host in "${valid_hosts__array[@]}"; do
+      RewriteCond %{} !^wiki.globalonenessproject.org$
+
+      domain=$host
+      domain=${domain//https:\/\//}
+      domain=${domain//http:\/\//}
+      echo "RewriteCond %{HTTP_HOST} !^$domain\$ [NC]" >>"$output_path"
+
+      echo "RewriteCond %{HTTP_REFERER} !^$host(?:$|/) [NC]" >>"$output_path"
+    done
+
+    hotlink_extensions=${hotlink_extensions// /|}
+    echo "RewriteRule .(${hotlink_extensions})\$ - [F,NC]" >>"$output_path"
+  fi
 }
 
 # Merge in partials from files or URLs.

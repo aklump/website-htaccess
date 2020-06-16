@@ -134,3 +134,19 @@ files:
       whitelist:
         - 127.127.127.127
         - 127.127.127.128
+
+      # Hot link protection prevents directly linking to files, pictures, etc on
+      # your website.  Configure a list of file extensions that may NOT be
+      # linked to.  If an extension appears in this list then links to such
+      # files will be 403 forbidden. This means that if "jpg" is included then
+      # tags like <img src="foo.jpg"/> will not work.  Omit this to allow
+      # hotlinking.
+      hotlink_protect:
+        - gif
+        - jpg
+        - jpeg
+        - png
+        - mp3
+        - mpg
+        - avi
+        - mov
