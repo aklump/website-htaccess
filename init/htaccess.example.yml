@@ -84,6 +84,22 @@ files:
     # the domain; "remove" will take it away.
     www_prefix: remove
 
+    # Hot link protection prevents directly linking to files, pictures, etc on
+    # your website.  Configure a list of file extensions that may NOT be linked
+    # to.  If an extension appears in this list then links to such files will be
+    # 403 forbidden. This means that if "jpg" is included then tags like <img
+    # src="foo.jpg"/> will not work.  Omit this key to allow hotlinking.
+    hotlinks:
+      deny:
+        - gif
+        - jpg
+        - jpeg
+        - png
+        - mp3
+        - mpg
+        - avi
+        - mov
+
     # Redirects defined at the file evel are only added to this file.
     redirects:
       301:
@@ -135,18 +151,6 @@ files:
         - 127.127.127.127
         - 127.127.127.128
 
-      # Hot link protection prevents directly linking to files, pictures, etc on
-      # your website.  Configure a list of file extensions that may NOT be
-      # linked to.  If an extension appears in this list then links to such
-      # files will be 403 forbidden. This means that if "jpg" is included then
-      # tags like <img src="foo.jpg"/> will not work.  Omit this to allow
-      # hotlinking.
-      hotlink_protect:
-        - gif
-        - jpg
-        - jpeg
-        - png
-        - mp3
-        - mpg
-        - avi
-        - mov
+    # Include this key without "deny" and the default hotlink extensions will be
+    # enabled.
+    hotlinks:

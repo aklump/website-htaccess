@@ -77,26 +77,43 @@ function plugin_http_auth() {
     echo "Allow from $(array_join ",")" >>"$output_path"
     echo "Satisfy any" >>"$output_path"
   fi
+}
 
-  # Forbid linking to assets in the site.
-  eval $(get_config_as hotlink_extensions -a "$config_base.http_auth.hotlink_protect")
-  hotlink_extensions=${hotlink_extensions[@]}
-  if [[ "$hotlink_extensions" ]]; then
+
+# Add hotlink denial code.
+#
+# $1 - The path to the output_path file.
+# $2 - The base configuration key, e.g. "files.prod_webroot"
+#
+# Returns 0 if successful, 1 otherwise.
+valid_hosts__array=()
+function plugin_hotlinks() {
+  local output_path="$1"
+  local config_base="$2"
+
+  [[ "$output_path" ]] || return 1
+
+  # Forbid linking to assets in the site, a.k.a. "hotlinking".
+  eval $(get_config_as deny_extensions -a "$config_base.hotlinks.deny")
+  deny_extensions=${deny_extensions[@]}
+  if [[ "$deny_extensions" != false ]]; then
+    # Setup the default if the value is not set and not false.
+    if [[ "$deny_extensions" == "" ]]; then
+      deny_extensions="gif jpg jpeg png mp3 mpg avi mov"
+    fi
     echo "RewriteEngine on" >>"$output_path"
     echo "RewriteCond %{HTTP_REFERER} !^$" >>"$output_path"
     for host in "${valid_hosts__array[@]}"; do
-      RewriteCond %{} !^wiki.globalonenessproject.org$
-
       domain=$host
       domain=${domain//https:\/\//}
       domain=${domain//http:\/\//}
+      domain=${domain%/}
       echo "RewriteCond %{HTTP_HOST} !^$domain\$ [NC]" >>"$output_path"
-
       echo "RewriteCond %{HTTP_REFERER} !^$host(?:$|/) [NC]" >>"$output_path"
     done
 
-    hotlink_extensions=${hotlink_extensions// /|}
-    echo "RewriteRule .(${hotlink_extensions})\$ - [F,NC]" >>"$output_path"
+    deny_extensions=${deny_extensions// /|}
+    echo "RewriteRule .(${deny_extensions})\$ - [F,NC]" >>"$output_path"
   fi
 }
 

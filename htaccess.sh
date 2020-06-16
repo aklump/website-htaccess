@@ -129,7 +129,7 @@ case $command in
       has_failed && exit_with_failure
 
       # The order these are defined will determine their execution order.
-      registered_plugin_names=("redirects" "ban_ips" "http_auth" "force_ssl" "www_prefix" "ban_wordpress" "source")
+      registered_plugin_names=("redirects" "ban_ips" "http_auth" "hotlinks" "force_ssl" "www_prefix" "ban_wordpress" "source")
 
       for plugin_name in "${registered_plugin_names[@]}"; do
 
