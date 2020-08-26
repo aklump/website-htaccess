@@ -70,11 +70,13 @@ function plugin_http_auth() {
   echo "Require valid-user" >>"$output_path"
 
   # If we whitelist some IPs then add this.
-  eval $(get_config_as array_join__array -a "$config_base.http_auth.whitelist")
-  if [ ${#array_join__array[@]} -gt 0 ]; then
+  eval $(get_config_as whitelist -a "$config_base.http_auth.whitelist")
+  if [ ${#whitelist[@]} -gt 0 ]; then
     echo "Order deny,allow" >>"$output_path"
     echo "Deny from all" >>"$output_path"
-    echo "Allow from $(array_join ",")" >>"$output_path"
+    for i in "${whitelist[@]}"; do
+      echo "Allow from $i" >>"$output_path"
+    done
     echo "Satisfy any" >>"$output_path"
   fi
 }
