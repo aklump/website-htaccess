@@ -211,6 +211,23 @@ function plugin_www_prefix() {
   echo "</IfModule>" >>"$output_path"
 }
 
+# Wrap URL with quotes, replace url-encoded, etc.
+#
+# $1 - The RedirectMatch path (from or to)
+#
+# Urls with spaces must be double-quoted.
+# @link https://stackoverflow.com/a/14164198/3177610
+# @link https://stackoverflow.com/a/1474094/3177610
+function _handle_special_chars() {
+  local path="$1"
+
+  must_quote_pattern=" |%20"
+  if [[ "$path" ]] && [[ $path =~ $must_quote_pattern ]]; then
+    path="\"${path//%20/ }\""
+  fi
+  echo "$path"
+}
+
 function plugin_redirects() {
   local output_path="$1"
   local config_base="$2"
@@ -239,8 +256,14 @@ function plugin_redirects() {
       if [[ $code -gt 299 ]] && [[ $code -lt 400 ]] && [[ ! "${string_split__array[1]}" ]]; then
         fail_because "The redirect parameter cannot be empty for: $from" && return 1
       fi
-      from="^${string_split__array[0]}/?\$"
-      echo RedirectMatch $code $from ${string_split__array[1]} >>"$output_path"
+
+      from=$(_handle_special_chars "^${string_split__array[0]}/?\$")
+      if [[ "${string_split__array[1]}" ]]; then
+        to=$(_handle_quotes "${string_split__array[1]}")
+        echo RedirectMatch $code $from $to >>"$output_path"
+      else
+        echo RedirectMatch $code $from >>"$output_path"
+      fi
     done
   done
 
