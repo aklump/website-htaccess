@@ -259,7 +259,7 @@ function plugin_redirects() {
 
       from=$(_handle_special_chars "^${string_split__array[0]}/?\$")
       if [[ "${string_split__array[1]}" ]]; then
-        to=$(_handle_quotes "${string_split__array[1]}")
+        to=$(_handle_special_chars "${string_split__array[1]}")
         echo RedirectMatch $code $from $to >>"$output_path"
       else
         echo RedirectMatch $code $from >>"$output_path"
