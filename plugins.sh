@@ -65,7 +65,9 @@ function plugin_http_auth() {
 
   echo "AuthName \"$title\"" >>"$output_path"
   echo "AuthUserFile $user_file" >>"$output_path"
-  echo "AuthGroupFile /dev/null" >>"$output_path"
+  echo "<IfModule mod_authz_groupfile.c>" >>"$output_path"
+  echo "  AuthGroupFile /dev/null" >>"$output_path"
+  echo "</IfModule>" >>"$output_path"
   echo "AuthType Basic" >>"$output_path"
   echo "Require valid-user" >>"$output_path"
 
