@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Todo
+
+- When used with Drupal 9, the 4XX redirects do not seem to work in apache 2.4.  I'm not sure why, whether it's apache 2.4 or Drupal.  Could it be something in the virual host that is superceding .htaccess?
+
 ## [0.0.20] - 2020-06-15
 
 ### Added
