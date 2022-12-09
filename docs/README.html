@@ -15,10 +15,9 @@
          &raquo
       </div>  </section>
 
-
-<h1>Htaccess</h1>
-
 <section>
+  <h1>Htaccess</h1>
+  
 
 <p><img src="images/htaccess.jpg" alt="htaccess" /></p>
 
@@ -68,7 +67,7 @@
 └── {public web root}
 </code></pre>
 
-<p>Optionally you may want to designate a source folder for your <em>.htaccess</em> partial files to be pulled from on build.  For example:</p>
+<p>Optionally you may want to designate a source folder for your <em>.htaccess</em> partial files to be pulled from on build. For example:</p>
 
 <pre><code>.
 ├── bin
@@ -116,7 +115,7 @@
 
 <h3>Regarding <code>valid_hosts</code>, <code>force_ssl</code>, and <code>www_prefix</code> configuration</h3>
 
-<p>The first setting is required.  You must list one or more hosts in <code>valid_hosts</code>, including their http or https protocol.</p>
+<p>The first setting is required. You must list one or more hosts in <code>valid_hosts</code>, including their http or https protocol.</p>
 
 <p>You may explicitly declare <code>force_ssl</code> or <code>www_prefix</code>, or you may let the <code>valid_hosts</code> be used to autodetect these settings.</p>
 
@@ -139,6 +138,19 @@
 <li><a href="https://www.askapache.com/htaccess/mod_rewrite-variables-cheatsheet/">Mod_Rewrite Variables Cheatsheet</a></li>
 <li><a href="https://www.askapache.com/category/htaccess/">Htaccess</a></li>
 </ul>
+
+<h2>Troubleshooting</h2>
+
+<h3>4xx redirects are not working</h3>
+
+<p>I'm not sure why, but on some servers they do not work. Possible reasons:</p>
+
+<ol>
+<li>Apache version?</li>
+<li>VirtualHost config hijacking?</li>
+<li>Drupal conflict?</li>
+</ol>
+
 </section>
 
 <div class="search__results">
@@ -148,7 +160,7 @@
 <footer>
   <div class="pager"><a href="CHANGELOG.html" class="prev CHANGELOG">&laquo;Changelog</a><a href="index.html" class="index pager__book-title"></a><a href="index.html" class="next index">Index&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 0.0.24 &bull; Last Updated: Tue, 14 Sep 2021 15:22:27 -0700</p>
+    <p class="legaleeze center">Version: 0.0.25 &bull; Last Updated: Thu, 08 Dec 2022 16:15:41 -0800</p>
   </div>
 </footer>
 
@@ -156,4 +168,3 @@
 <script src="js/core.js"></script>
 </body>
 </html>
-

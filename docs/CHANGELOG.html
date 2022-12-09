@@ -15,15 +15,20 @@
          &raquo
       </div>  </section>
 
-
-<h1>Changelog</h1>
-
 <section>
+  <h1>Changelog</h1>
+  
 
 <p>All notable changes to this project will be documented in this file.</p>
 
 <p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+
+<h2>Todo</h2>
+
+<ul>
+<li>When used with Drupal 9, the 4XX redirects do not seem to work in apache 2.4.  I'm not sure why, whether it's apache 2.4 or Drupal.  Could it be something in the virual host that is superceding .htaccess?</li>
+</ul>
 
 <h2>[0.0.20] - 2020-06-15</h2>
 
@@ -52,6 +57,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <ul>
 <li>Hotlinking is not longer automatic for <code>http_auth</code>.  You must configure it now.  See <em>init/htaccess.example.yml</em> for how to add this configuration.</li>
 </ul>
+
 </section>
 
 <div class="search__results">
@@ -61,7 +67,7 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <footer>
   <div class="pager"><a href="index.html" class="prev index">&laquo;Index</a><a href="index.html" class="index pager__book-title"></a><a href="README.html" class="next readme">Htaccess&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 0.0.24 &bull; Last Updated: Tue, 14 Sep 2021 15:22:27 -0700</p>
+    <p class="legaleeze center">Version: 0.0.25 &bull; Last Updated: Thu, 08 Dec 2022 16:15:41 -0800</p>
   </div>
 </footer>
 
@@ -69,4 +75,3 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 <script src="js/core.js"></script>
 </body>
 </html>
-
