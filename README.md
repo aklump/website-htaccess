@@ -10,7 +10,7 @@ A helper script for _.htaccess_ management.
 * Work with smaller files then combine using `./bin/htaccess build`
 * Share common snippets across different _.htaccess_ files.
 * Simplified URL redirection; remap old URLs to new without nasty syntax.
-* Merge in remote _.htaccess_ source files on build (think Drupal web root _.htaccess_ + custom _.htaccess _directives). 
+* Merge in remote _.htaccess_ source files on build (think Drupal web root _.htaccess_ + custom _.htaccess _directives).
 * Manage banned IPs in a separate file or add them to the YAML configuration.
 * Includes other shortcut tools to help with .htaccess management of your websites.
 
@@ -43,7 +43,7 @@ The installation script above will generate the following structure where `.` is
     │       └── htaccess
     └── {public web root}
 
-Optionally you may want to designate a source folder for your _.htaccess_ partial files to be pulled from on build.  For example:
+Optionally you may want to designate a source folder for your _.htaccess_ partial files to be pulled from on build. For example:
 
     .
     ├── bin
@@ -55,7 +55,7 @@ Optionally you may want to designate a source folder for your _.htaccess_ partia
     │       └── .htaccess.custom (2 of 2 source files)
     └── web
         └── .htaccess (the compiled file)
-    
+
 ### To Update
 
 - Update to the latest version from your repo root: `cloudy pm-update aklump/htaccess`
@@ -73,7 +73,7 @@ Optionally you may want to designate a source folder for your _.htaccess_ partia
 
 ### Regarding `valid_hosts`, `force_ssl`, and `www_prefix` configuration
 
-The first setting is required.  You must list one or more hosts in `valid_hosts`, including their http or https protocol.
+The first setting is required. You must list one or more hosts in `valid_hosts`, including their http or https protocol.
 
 You may explicitly declare `force_ssl` or `www_prefix`, or you may let the `valid_hosts` be used to autodetect these settings.
 
@@ -92,3 +92,13 @@ If you find this project useful... please consider [making a donation](https://w
 * [THE Ultimate Htaccess](https://www.askapache.com/htaccess)
 * [Mod_Rewrite Variables Cheatsheet](https://www.askapache.com/htaccess/mod_rewrite-variables-cheatsheet/)
 * [Htaccess](https://www.askapache.com/category/htaccess/)
+
+## Troubleshooting
+
+### 4xx redirects are not working
+
+I'm not sure why, but on some servers they do not work. Possible reasons:
+
+1. Apache version?
+2. VirtualHost config hijacking?
+3. Drupal conflict?
