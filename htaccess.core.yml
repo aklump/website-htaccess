@@ -4,7 +4,14 @@ additional_config:
   - bin/config/htaccess.yml
   - bin/config/htaccess.local.yml
 additional_bootstrap:
-  - plugins.sh
+  - plugins/ban_ips.sh
+  - plugins/ban_wordpress.sh
+  - plugins/force_ssl.sh
+  - plugins/hotlinks.sh
+  - plugins/http_auth.sh
+  - plugins/redirects.sh
+  - plugins/source.sh
+  - plugins/www_prefix.sh
 default_command: help
 commands:
   build:
