@@ -94,6 +94,7 @@ case $command in
   echo_title "Building .htaccess Files"
   eval $(get_config_as "output_header" "header")
   eval $(get_config_keys "files")
+  eval $(get_config_keys_as "shared_ban_ips" "ban_ips")
   eval $(get_config_keys_as "shared_redirects" "redirects")
 
   for id in ${files[@]}; do
@@ -131,12 +132,14 @@ case $command in
       has_failed && exit_with_failure
 
       # The order these are defined will determine their execution order.
-      registered_plugin_names=("redirects" "ban_ips" "http_auth" "hotlinks" "force_ssl" "www_prefix" "ban_wordpress" "source")
+      # ban_ips must always come first
+      registered_plugin_names=("ban_ips")
+      registered_plugin_names=("${registered_plugin_names[@]}" "redirects" "http_auth" "hotlinks" "force_ssl" "www_prefix" "ban_wordpress" "source")
 
       for plugin_name in "${registered_plugin_names[@]}"; do
 
         # Note: the redirects plugin can take config from top-level or from file-level, it's different from the rest.
-        if array_has_value "$plugin_name" || [[ "$plugin_name" == "redirects" && "${#shared_redirects[@]}" -gt 0 ]]; then
+        if array_has_value "$plugin_name" || [[ "$plugin_name" == "ban_ips" && "${#shared_ban_ips[@]}" -gt 0 ]] || [[ "$plugin_name" == "redirects" && "${#shared_redirects[@]}" -gt 0 ]]; then
           callback="plugin_${plugin_name}"
           write_file_header_array=("Begin plugin \"$plugin_name\" output.")
           write_file_header "$output_path"

@@ -12,8 +12,20 @@ function plugin_ban_ips() {
 
   [[ "$output_path" ]] || return 1
 
-  eval $(get_config_as -a ips "$config_base.ban_ips")
-  [ ${#ips[@]} -gt 0 ] && list_add_item "Using plugin: ban_ips"
+  # Load the shared/not-shared redirects to see if we need to do anything.
+  eval $(get_config_as include_shared "$config_base.ban_ips_inherit" true)
+  if [[ "$include_shared" == true ]]; then
+    eval $(get_config_as shared_ips -a "ban_ips")
+  fi
+  eval $(get_config_as ips -a "$config_base.ban_ips")
+  if [[ ${#shared_ips[@]} -eq 0 ]] && [[ ${#ips[@]} -eq 0 ]]; then
+    return
+  fi
+
+  list_add_item "Using plugin: ban_ips"
+  for ip in "${shared_ips[@]}"; do
+    echo "deny from $ip" >>"$output_path"
+  done
   for ip in "${ips[@]}"; do
     echo "deny from $ip" >>"$output_path"
   done
