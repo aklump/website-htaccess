@@ -1,6 +1,11 @@
+<!--
+id: readme
+tags: ''
+-->
+
 # Htaccess
 
-![htaccess](images/htaccess.jpg)
+![htaccess](../../images/htaccess.jpg)
 
 ## Summary
 
@@ -13,8 +18,6 @@ A helper script for _.htaccess_ management.
 * Merge in remote _.htaccess_ source files on build (think Drupal web root _.htaccess_ + custom _.htaccess _directives).
 * Manage banned IPs in a separate file or add them to the YAML configuration.
 * Includes other shortcut tools to help with .htaccess management of your websites.
-
-**Visit <https://aklump.github.io/htaccess> for full documentation.**
 
 ## Quick Start
 
