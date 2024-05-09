@@ -16,13 +16,16 @@ function plugin_force_ssl() {
   [[ "$force_ssl" == false ]] && return 0;
 
   # Note: SSL is handled by the www_prefix plugin.
-  [[ "$www_prefix" != '' ]] && return 0;
+  [[ "$www_prefix" == 'add' ]] || [[ "$www_prefix" == 'remove' ]] && return 0;
 
   list_add_item "Using plugin: force_ssl"
 
-  echo "<IfModule mod_rewrite.c>" >>"$output_path"
-  echo "  RewriteEngine on" >>"$output_path"
-  echo "  RewriteCond %{HTTPS} off" >>"$output_path"
-  echo "  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]" >>"$output_path"
-  echo "</IfModule>" >>"$output_path"
+  echo "<IfModule mod_rewrite.c>" >> "$output_path"
+  echo "  RewriteEngine on" >> "$output_path"
+  echo "  # This line is required in some environments, e.g. Lando" >> "$output_path"
+  echo "  RewriteCond %{ENV:HTTPS} !^.*on" >> "$output_path"
+  echo "  # This line is more universal but doesn't always work." >> "$output_path"
+  echo "  RewriteCond %{HTTPS} !^.*on" >> "$output_path"
+  echo "  RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]" >> "$output_path"
+  echo "</IfModule>" >> "$output_path"
 }
