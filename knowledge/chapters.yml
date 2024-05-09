@@ -1,6 +1,10 @@
 chapter_order:
   - general
+  - troubleshooting
 chapter_info:
   -
     id: general
     title: General
+  -
+    id: troubleshooting
+    title: Troubleshooting
