@@ -2,6 +2,8 @@
 
 # Add or remove the 'www.' prefix from the domain name.
 #
+# enum: [add, remove, default]
+#
 # $1 - The path to the output_path file.
 # $2 - The base configuration key, e.g. "files.prod_webroot"
 #

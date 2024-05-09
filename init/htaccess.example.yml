@@ -97,7 +97,8 @@ files:
     # OPTIONAL OVERRIDE to the auto-detected setting based on valid_hosts.  See
     # README.md for more info.  Set this to either 'add' or 'remove' to handle
     # the "www" prefix on the domain.  'add' will ensure that "www." appears in
-    # the domain; "remove" will take it away.
+    # the domain; "remove" will take it away. Using 'default' will prevent any
+    # special handling; it will neither remove nor add.
     www_prefix: remove
 
     # Hot link protection prevents directly linking to files, pictures, etc on
