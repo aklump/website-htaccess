@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - When used with Drupal 9, the 4XX redirects do not seem to work in apache 2.4. I'm not sure why, whether it's apache 2.4 or Drupal. Could it be something in the virual host that is superceding .htaccess?
 
+## [0.0.31] - 2024-05-22
+
+### Fixed
+
+- Fixed the Lando SSL redirection in www_prefix plugin to match force_ssl.
+
 ## [0.0.30] - 2024-05-09
 
 ### Added
