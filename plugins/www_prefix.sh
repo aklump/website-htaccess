@@ -33,7 +33,10 @@ function plugin_www_prefix() {
     # to SSL we can hardcode the value as shown above and don't need these
     # lines to be added.
     echo "  RewriteRule ^ - [E=protossl]" >>"$output_path"
-    echo "  RewriteCond %{HTTPS} on" >>"$output_path"
+    echo "  # This line is required in some environments, e.g. Lando" >> "$output_path"
+    echo "  RewriteCond %{ENV:HTTPS} on" >> "$output_path"
+    echo "  # This line is more universal but doesn't always work." >> "$output_path"
+    echo "  RewriteCond %{HTTPS} on" >> "$output_path"
     echo "  RewriteRule ^ - [E=protossl:s]" >>"$output_path"
   fi
 
@@ -51,7 +54,10 @@ function plugin_www_prefix() {
   fi
 
   if [[ "$force_ssl" == true ]]; then
-    echo "  RewriteCond %{HTTPS} off" >>"$output_path"
+    echo "  # This line is required in some environments, e.g. Lando" >> "$output_path"
+    echo "  RewriteCond %{ENV:HTTPS} !^.*on" >> "$output_path"
+    echo "  # This line is more universal but doesn't always work." >> "$output_path"
+    echo "  RewriteCond %{HTTPS} !^.*on" >> "$output_path"
     echo "  RewriteRule ^(.*)$ http${protossl}://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]" >>"$output_path"
   fi
 
